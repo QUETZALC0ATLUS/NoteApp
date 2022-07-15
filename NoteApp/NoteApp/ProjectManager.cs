@@ -12,25 +12,23 @@ namespace NoteApp
     /// Класс «Менеджер проекта». Реализует метод для сохранения объекта «Проект» в 
     /// файл и метод загрузки проекта из файла.
     /// </summary>
-    public class ProjectManager
+    public static class ProjectManager
     {
-        Note note = new Note();
-
         /// <summary>
-        /// Имя файла, заданное закрытой константой.
+        /// Имя файла, заданное закрытой константой. ДОДЕЛАТЬ
         /// </summary>
-        private const string file = "NoteApp.notes";
+        private const string filename = @"c:\Users\vladi\qqq\NoteApp.notes";
 
         /// <summary>
         /// Метод для сохранения объекта «Проект» в файл.
         /// </summary>
-        public void SaveObject()
+        public static void SaveToFile(Note note, string filename = @"c:\Users\vladi\qqq\NoteApp.notes")
         {   
             //Создаём экземпляр сериализатора
             JsonSerializer serializer = new JsonSerializer();
 
             //Открываем поток для записи в файл с указанием пути
-            using (StreamWriter sw = new StreamWriter(file))
+            using (StreamWriter sw = new StreamWriter(filename))
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 //Вызываем сериализацию и передаем объект, который хотим сериализовать
@@ -41,7 +39,7 @@ namespace NoteApp
         /// <summary>
         /// Метод для загрузки объекта «Проект» из файла.
         /// </summary>
-        public void DownloadObject()
+        public static Note LoadFromFile(string filename = @"c:\Users\vladi\qqq\NoteApp.notes")
         {
             //Создаём переменную, в которую поместим результат десериализации
             Note note = null;
@@ -50,11 +48,11 @@ namespace NoteApp
             JsonSerializer serializer = new JsonSerializer();
 
             //Открываем поток для чтения из файла с указанием пути
-            using (StreamReader sr = new StreamReader(file))
+            using (StreamReader sr = new StreamReader(filename))
             using (JsonReader reader = new JsonTextReader(sr))
             {
                 //Вызываем десериализацию и явно преобразуем результат в целевой тип данных
-                note = (Note)serializer.Deserialize<Note>(reader);
+                return note = (Note)serializer.Deserialize<Note>(reader);
             }
         }
     }
